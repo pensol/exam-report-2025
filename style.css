@@ -1,0 +1,61 @@
+:root { --page-ratio: 1.43057; --ui-blue: #1769aa; --mark-scale: .86; }
+* { box-sizing: border-box; }
+body { margin:0; background:#e8ebef; color:#1d252c; font-family:system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif; }
+.toolbar { position:sticky; z-index:10; top:0; display:flex; gap:12px; align-items:center; padding:10px 16px; background:#fff; box-shadow:0 1px 6px #0003; }
+.toolbar strong { margin-right:auto; }
+.toolbar button { border:1px solid #a8b4bf; border-radius:5px; background:#fff; padding:7px 12px; cursor:pointer; }
+#print-button { color:white; border-color:var(--ui-blue); background:var(--ui-blue); }
+#save-status { color:#557; font-size:13px; }
+main { padding:10px 12px 30px; }
+.help { margin:2px auto 10px; max-width:1206px; font-size:13px; }
+.sheet-wrap { width:100%; }
+.sheet { position:relative; width:min(100%, 1600px); aspect-ratio:1206.48 / 843.36; margin:auto; background:white; box-shadow:0 2px 12px #0004; overflow:hidden; }
+.sheet > img { position:absolute; inset:0; width:100%; height:100%; user-select:none; pointer-events:none; }
+#overlay { position:absolute; inset:0; }
+.field { position:absolute; margin:0; padding:1px 2px; border:1px solid transparent; outline:none; color:#101010; background:rgba(255,255,255,.04); font-family:"Yu Gothic",Meiryo,sans-serif; line-height:1.35; resize:none; overflow:hidden; border-radius:0; }
+.field:focus { background:rgba(255,252,205,.52); border-color:#e3a600; }
+.mark { position:absolute; border:0; padding:0; background:transparent; cursor:pointer; }
+.mark::after { content:""; position:absolute; left:50%; top:50%; width:86%; height:86%; transform:translate(-50%,-50%); border:0.75pt solid transparent; border-radius:50%; }
+.mark.selected::after { border-color:#111; }
+.debug .field, .debug .mark { border:1px dashed #e50000; background:rgba(255,230,0,.14); overflow:visible; }
+.debug .field::before, .debug .mark::before { content:attr(data-debug); position:absolute; z-index:2; left:0; top:100%; white-space:nowrap; color:#b00000; background:#fffbdc; font:7px/1.15 monospace; pointer-events:none; }
+.mobile-form { display:none; max-width:720px; margin:0 auto 14px; }
+.mobile-group { margin:0 0 12px; padding:12px; border-radius:10px; background:#fff; box-shadow:0 1px 5px #0002; }
+.mobile-group h2 { margin:0 0 9px; font-size:16px; }
+.mobile-control { display:block; margin:0 0 12px; font-size:13px; font-weight:600; }
+.mobile-control input, .mobile-control textarea { display:block; width:100%; min-height:44px; margin-top:5px; padding:9px 10px; border:1px solid #9daab6; border-radius:7px; background:#fff; font:16px/1.45 system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif; }
+.mobile-control textarea { min-height:96px; resize:vertical; }
+.mobile-mark { width:100%; min-height:46px; margin:0 0 8px; padding:9px 12px; border:1px solid #9daab6; border-radius:7px; background:#fff; text-align:left; font-size:16px; }
+.mobile-mark::before { content:'○を付ける'; display:inline-block; min-width:6em; margin-right:8px; color:#52606b; }
+.mobile-mark.selected { border-color:var(--ui-blue); background:#e8f3fc; }
+.mobile-mark.selected::before { content:'○  選択中'; color:#075d9b; font-weight:700; }
+#mobile-form-button, #preview-button { display:none; }
+
+@media (max-width: 700px) {
+  .toolbar { position:sticky; flex-wrap:wrap; gap:7px; padding:8px; }
+  .toolbar strong { flex:1 0 calc(100% - 95px); font-size:14px; }
+  #save-status { font-size:11px; }
+  #mobile-form-button, #preview-button { display:inline-block; }
+  #debug-label, #clear-button { display:none; }
+  main { padding:8px; }
+  .help { font-size:12px; }
+  .mobile-form { display:block; }
+  .sheet-wrap { display:none; overflow:auto; padding-bottom:8px; }
+  body.preview-mode .mobile-form { display:none; }
+  body.preview-mode .sheet-wrap { display:block; }
+  body.preview-mode .sheet { width:1000px; max-width:none; }
+  #print-button { margin-left:auto; }
+}
+
+@page { size:425.62mm 297.52mm; margin:0; }
+@media print {
+  html, body { width:425.62mm; height:297.52mm; margin:0!important; padding:0!important; background:white; }
+  .toolbar, .help, .mobile-form { display:none!important; }
+  .sheet-wrap { display:block!important; overflow:visible!important; }
+  main { margin:0; padding:0; }
+  .sheet { width:425.62mm; height:297.52mm; margin:0; box-shadow:none; overflow:hidden; }
+  .field { border:0!important; background:transparent!important; }
+  .field { font-size:calc(var(--font-pt) * 1pt)!important; }
+  .mark { border:0!important; background:transparent!important; }
+  .debug .field::before, .debug .mark::before { display:none!important; }
+}
